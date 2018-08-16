@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tienda</title>
+</head>
+<body>
+    <h1>CREA CATEGORIAS</h1>
+    <form id="formCreaProducto">
+        <fieldset>
+            <div>
+                <label>Nombre</label>
+                <input type="text" name="nombre"/>
+            </div>
+            <div>
+                <label>Descripcion</label>
+                <input type="text" name="descripcion"/>
+            </div>
+            <div>
+                <input id="btnCreaCategoria" type="button" value="Crear nueva categoria"/>
+            </div>
+        </fieldset>
+    </form>
+    <div id="divRespuestaCategoriaCreado" style="display:none;">
+            <fieldset>
+              <legend>RESULTADO</legend>
+              <h2>Categoria Creada</h2>
+              <div>Nombre: <span id="nombre"></span></div>
+              <div>Descripcion: <span id="descripcion"></span></div>
+            </fieldset>
+    </div>
+    <div id="divErrorCategoriaCreado" style="display:none;">
+            <fieldset>
+              <legend>ERROR</legend>
+              <div>Error:  <span id="error"></span></div>
+            </fieldset>
+    </div>
+    <script src="./js/jquery/jquery-3.3.1.js"></script>
+    <script>
+        $("#btnCreaCategoria").click(()=>{
+            $("#divRespuestaCategoriaCreado").hide();
+            $("#divErrorCategoriaCreado").hide();
+            var data = $("#formCreaProducto").serialize();
+            //Falta gestionar el error
+            $.post("/categorias", data)
+                .done((res)=>{
+                    $("#nombre").html(res.categoria.nombre);
+                    $("#descripcion").html(res.categoria.descripcion);
+                    $("#divRespuestaCategoriaCreado").show();
+                })
+                .fail((res)=>{
+                    $("#error").html('La categoria ya existe');
+                    $("#divErrorCategoriaCreado").show();
+                });
+      });
+    </script>
+</body>
+</html>

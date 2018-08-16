@@ -39,7 +39,7 @@ app.post('/categorias',(req,res)=>{
             return res.status(500).json({
                 ok: false,
                 err
-            })
+            });
         }
         if(!categoriaDB) {
             return res.json({
@@ -47,8 +47,7 @@ app.post('/categorias',(req,res)=>{
                 err
             });
         }
-
-        return res.json({
+        res.json({
             ok: true,
             categoria: categoriaDB
         });
@@ -58,7 +57,42 @@ app.post('/categorias',(req,res)=>{
 //=========================
 // Actualizar Nombre de la Categoria
 //=============================
-
+app.put('/categorias/:id',(req,res)=>{
+    let id = req.params.id;
+    let nombre = req.body.nombre;
+    let descripcion = req.body.descripcion;
+    Categoria.findById(id)
+        .exec((err,categoriaDB)=>{
+            if(err){
+                return res.json({
+                    ok: false,
+                    err
+                });
+            }
+            categoriaDB.nombre = nombre|| categoriaDB.nombre;
+            categoriaDB.descripcion = descripcion|| categoriaDB.descripcion;
+            categoriaDB.save((error,categoriaDB)=>{
+                if(error){
+                    return res.status(500).json({
+                        ok: false,
+                        msg: 'La categoria ya existe',
+                        err
+                    });
+                }
+                if(!categoriaDB) {
+                    return res.status(400).json({
+                        ok: false,
+                        msg: 'La categoria ya existe',
+                        err
+                    });
+                }
+                return res.json({
+                    ok: true,
+                    categoria: categoriaDB
+                });
+            });
+        });
+});
 //=========================
 // Eliminar categorias
 //=============================
@@ -69,24 +103,25 @@ app.delete('/categorias/:id',(req,res)=>{
     };
     Categoria.findByIdAndUpdate(id,cambiaDisponibilidad,{new: true},(err,categoriaDB)=>{
         if(err){
-            return res.status(500).json({
+            res.status(500).json({
                 ok: false,
                 err
             });
         }
-        if(! categoriaDB){
-            return res.status(400).json({
+        else if(! categoriaDB){
+            res.status(400).json({
                 ok: false,
                 err:{
                     message: 'La categoria seleccionada no existe'
                 }
             })
         }
-
-        res.json({
-            ok: true,
-            message: 'La categoria ha sido borrada'
-        });
+        else{
+            res.json({
+                ok: true,
+                message: 'La categoria ha sido borrada'
+            });
+        }
     });
 });
 
