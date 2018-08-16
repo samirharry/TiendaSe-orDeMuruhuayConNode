@@ -18,5 +18,5 @@ mongoose.connect('mongodb://localhost:27017/tienda',{ useNewUrlParser: true },(e
 });
 
 app.listen(3000,()=>{
-    console.log("Enviando Puerto:", 3000);
+    console.log("Escuchando Puerto:", 3000);
 });
