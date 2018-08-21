@@ -67,7 +67,7 @@
                         divResCat.seen = true;
                     })
                     .fail((err)=>{
-                        divErrCat.error=err.responseJSON;
+                        divErrCat.error=err;
                         divErrCat.seen = true;
                     });
         });
