@@ -1,0 +1,26 @@
+{
+  "name": "seniordemuruhuay",
+  "version": "1.0.0",
+  "description": "No se olvide instalar\r #####\r ```\r npm install\r ```",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "mongoose": "^5.2.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samirharry/TiendaSe-orDeMuruhuayConNode.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samirharry/TiendaSe-orDeMuruhuayConNode/issues"
+  },
+  "homepage": "https://github.com/samirharry/TiendaSe-orDeMuruhuayConNode#readme"
+}
