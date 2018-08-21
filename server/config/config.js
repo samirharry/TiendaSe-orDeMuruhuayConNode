@@ -12,7 +12,7 @@ let urlDB ;
 if(process.env.NODE_ENV === 'dev'){
    urlDB = 'mongodb://localhost:27017/tienda';
 } else{
-    urlDB = process.env.MONGO_URL;
+    urlDB = 'mongodb://samirharry:20164014I@ds125892.mlab.com:25892/tiendasenior';
 }
 
 process.env.URLDB = urlDB;
