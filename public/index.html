@@ -23,22 +23,59 @@
             </div>
         </fieldset>
     </form>
-    <div id="divRespuestaCategoriaCreado" style="display:none;">
-            <fieldset>
+    <div id="divResCat">
+            <fieldset v-if="seen">
               <legend>RESULTADO</legend>
               <h2>Categoria Creada</h2>
-              <div>Nombre: <span id="nombre"></span></div>
-              <div>Descripcion: <span id="descripcion"></span></div>
+              <div>Nombre: {{nombre}}</div>
+              <div>Descripcion: {{descripcion}} </div>
             </fieldset>
     </div>
-    <div id="divErrorCategoriaCreado" style="display:none;">
-            <fieldset>
+    <div id="divErrCat">
+            <fieldset v-if="seen">
               <legend>ERROR</legend>
-              <div>Error:  <span id="error"></span></div>
+              <div>Error:  {{error}}</div>
             </fieldset>
     </div>
     <script src="./js/jquery/jquery-3.3.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
+        var respuesta;
+        var divResCat = new Vue({
+            el: '#divResCat',
+            data:{
+                seen: false,
+                nombre: '',
+                descripcion: ''
+            }
+        });
+        var divErrCat = new Vue({
+            el: '#divErrCat',
+            data:{
+                seen: false,
+                error:''
+            }
+        });
+        $("#btnCreaCategoria").click(()=>{
+                divErrCat.seen = false;
+                divResCat.seen = false;
+                var data = $("#formCreaProducto").serialize();
+                $.post("/categorias",data)
+                    .done((res)=>{
+                        divResCat.nombre= res.categoria.nombre;
+                        divResCat.descripcion= res.categoria.descripcion;
+                        divResCat.seen = true;
+                    })
+                    .fail((err)=>{
+                        divErrCat.error=err.responseJSON;
+                        divErrCat.seen = true;
+                    });
+        });
+    </script>
+
+
+
+    <!-- <script>
         $("#btnCreaCategoria").click(()=>{
             $("#divRespuestaCategoriaCreado").hide();
             $("#divErrorCategoriaCreado").hide();
@@ -51,10 +88,27 @@
                     $("#divRespuestaCategoriaCreado").show();
                 })
                 .fail((res)=>{
-                    $("#error").html('La categoria ya existe');
+                    alert(res);
+                    console.log(res.error.msg);
+                    $("#error").html("La ccategoria ya existe");
                     $("#divErrorCategoriaCreado").show();
                 });
-      });
+
+           /*  Vue.http.post("/categorias", data)
+                .then((res)=>{
+                    $("#nombre").html(res.categoria.nombre);
+                    $("#descripcion").html(res.categoria.descripcion);
+                    $("#divRespuestaCategoriaCreado").show();
+                }),
+                ((res)=>{
+                    alert(res);
+                    console.log(res.error.msg);
+                    $("#error").html("La ccategoria ya existe");
+                    $("#divErrorCategoriaCreado").show();
+                }) */
+        });
     </script>
+ -->
+
 </body>
 </html>

@@ -76,14 +76,14 @@ app.put('/categorias/:id',(req,res)=>{
                     return res.status(500).json({
                         ok: false,
                         msg: 'La categoria ya existe',
-                        err
+                        error
                     });
                 }
                 if(!categoriaDB) {
                     return res.status(400).json({
                         ok: false,
                         msg: 'La categoria ya existe',
-                        err
+                        error
                     });
                 }
                 return res.json({

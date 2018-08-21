@@ -19,7 +19,9 @@ app.use(require('./routes/index'));
 
 
 mongoose.connect('mongodb://localhost:27017/tienda',{ useNewUrlParser: true },(err,res)=>{
-    if(err) throw err;
+    if(err) {
+        console.log('No conectaste la base de datos');
+    };
     console.log("Base de Datos online");
 });
 
