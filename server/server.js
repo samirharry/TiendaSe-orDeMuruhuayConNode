@@ -19,7 +19,7 @@ app.use(require('./routes/index'));
 
 
 
-mongoose.connect('mongodb://localhost:27017/tienda',{ useNewUrlParser: true },(err,res)=>{
+mongoose.connect(process.env.URLDB,{ useNewUrlParser: true },(err,res)=>{
     if(err) {
         console.log('No conectaste la base de datos');
     };
