@@ -1,3 +1,4 @@
+require('./config/config.js');
 const express = require('express');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -25,6 +26,6 @@ mongoose.connect('mongodb://localhost:27017/tienda',{ useNewUrlParser: true },(e
     console.log("Base de Datos online");
 });
 
-app.listen(3000,()=>{
+app.listen(process.env.PORT,()=>{
     console.log("Escuchando Puerto:", 3000);
 });
