@@ -5,105 +5,206 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Tienda</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
 </head>
 <body>
+        <nav class="navbar is-transparent">
+                <div class="navbar-brand">
+                  <a class="navbar-item" href="https://bulma.io">
+                    <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+                  </a>
+                  <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+
+                <div id="navbarExampleTransparentExample" class="navbar-menu">
+                  <div class="navbar-start">
+                    <a id="navCate" class="navbar-item">
+                      CATEGORIAS
+                    </a>
+                    <a id="navMarc" class="navbar-item">
+                        MARCAS
+                    </a>
+                    <a id="navProd" class="navbar-item">
+                        PRODUCTOS
+                    </a>
+                  </div>
+                </div>
+              </nav>
+    <div id ="divCat" v-if="catSeen">
     <h1>CREA CATEGORIAS</h1>
-    <form id="formCreaProducto">
+    <form id="formCreaCategoria">
+        <fieldset>
+            <div>
+                <label>Nombre</label>
+                <input class="input is-rounded" type="text" name="nombre"/>
+            </div>
+            <div>
+                <label>Descripcion</label>
+                <input class="input is-rounded" type="text" name="descripcion"/>
+            </div>
+            <div class="columns">
+                    <div class="column">
+                    </div>
+                    <div class="column">
+                        <input class="button is-primary" id="btnCreaCategoria" type="button" value="Crear nueva categoria"/>
+                    </div>
+                    <div class="column">
+                    </div>
+                  </div>
+            <div>
+        </fieldset>
+    </form>
+    
+    <div class="message is-success" v-if="resCatSeen">
+            <div class="message-header">
+                    <p>Categoria Creada</p>
+                    <button class="delete" aria-label="delete"></button>
+                  </div>
+             <div class="message-body">
+                  <div>Nombre: {{nombre}}</div>
+                    <div>Descripcion: {{descripcion}} </div>
+            </div>
+    </div>
+
+    <h1>OBTIENE CATEGORIAS</h1>
+    <button id="btnObtenCategoria">Obtener Categorias</button>
+    <div v-if="tabCatSeen">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><abbr title="Position">Nombre</abbr></th>
+                    <th>Descripcion</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr v-for="categoria in categorias">
+                      <td>Categoria : {{categoria.nombre}}</td>
+                      <td>Categoria : {{categoria.descripcion}}</td>
+                    </tr>
+        </table>
+    </div>
+    <div v-if="errCatSeen">
+        <fieldset >
+          <legend>ERROR</legend>
+          <div>Error:  {{error}}</div>
+        </fieldset>
+    </div>
+    <h1>BORRA CATEGORIAS</h1>
+    <form id="formBorraCategoria">
         <fieldset>
             <div>
                 <label>Nombre</label>
                 <input type="text" name="nombre"/>
             </div>
             <div>
-                <label>Descripcion</label>
-                <input type="text" name="descripcion"/>
-            </div>
-            <div>
-                <input id="btnCreaCategoria" type="button" value="Crear nueva categoria"/>
+                <input id="btnBorraCategoria" type="button" value="Borrar Categoria"/>
             </div>
         </fieldset>
     </form>
-    <div id="divResCat">
-            <fieldset v-if="seen">
-              <legend>RESULTADO</legend>
-              <h2>Categoria Creada</h2>
-              <div>Nombre: {{nombre}}</div>
-              <div>Descripcion: {{descripcion}} </div>
+    <div v-if="errCatSeen">
+            <fieldset >
+              <legend>RESPUESTA</legend>
+              <h2>Categoria Borrada</h2>
+              <div>Mensaje: {{mensaje}}</div>
             </fieldset>
     </div>
-
-    <h1>OBTIENE CATEGORIAS</h1>
-    <button id="btnObtenCategoria">Obtener Categorias</button>
-    <div id="tablaCategorias" v-if="mostrar">
-        <ol>
-            <li v-for="categoria in categorias">
-                Categoria : {{categoria.nombre}}
-            </li>
-        </ol>
-    </div>
-    <div id="divErrCat">
-        <fieldset v-if="seen">
-          <legend>ERROR</legend>
-          <div>Error:  {{error}}</div>
-        </fieldset>
     </div>
     <script src="./js/jquery/jquery-3.3.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
-        var respuestaPostCateg;
-        var respuestaGetCateg;
-        var divResCat = new Vue({
-            el: '#divResCat',
+
+ /*        $(document).ready(function() { */
+            // Check for click events on the navbar burger icon
+            $(".navbar-burger").click(function() {
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                $(".navbar-burger").toggleClass("is-active");
+                $(".navbar-menu").toggleClass("is-active");
+            });
+            var divCat = new Vue({
+            el: '#divCat',
             data:{
-                seen: false,
+                catSeen: true,
+                resCatSeen: false,
+                errCatSeen: false,
+                tabCatSeen: false,
+                borCatSeen: false,
                 nombre: '',
-                descripcion: ''
+                descripcion: '',
+                error:'',
+                categorias:[],
+                mensaje: ''
             }
         });
-        var divErrCat = new Vue({
-            el: '#divErrCat',
-            data:{
-                seen: false,
-                error:''
-            }
+        $("#navCate").click(()=>{
+            divCat.catSeen = true;
         });
-        var tablaCategorias = new Vue({
-            el: '#tablaCategorias',
-            data:{
-                mostrar: false,
-                categorias:[]
-            }
+        $("#navMarc").click(()=>{
+            divCat.catSeen = false;
+        });
+        $("#navProd").click(()=>{
+            divCat.catSeen = false;
         });
         $("#btnCreaCategoria").click(()=>{
-                divErrCat.seen = false;
-                divResCat.seen = false;
-                var data = $("#formCreaProducto").serialize();
+                divCat.resCatSeen = false;
+                divCat.errCatSeen = false;
+                divCat.tabCatSeen = false;
+                let data = $("#formCreaCategoria").serialize();
                 $.post("/categorias",data)
                     .done((res)=>{
-                        divResCat.nombre= res.categoria.nombre;
-                        divResCat.descripcion= res.categoria.descripcion;
-                        divResCat.seen = true;
+                        divCat.nombre= res.categoria.nombre;
+                        divCat.descripcion= res.categoria.descripcion;
+                        divCat.resCatSeen = true;
                     })
                     .fail((err)=>{
-                        divErrCat.error='Ah ocurrido un error';
-                        divErrCat.seen = true;
+                        divCat.error='Ah ocurrido un error';
+                        divCat.errCatSeen = true;
                     });
         });
         $("#btnObtenCategoria").click(()=>{
-            tablaCategorias.mostrar = false;
-            divErrCat.seen = false;
-            divResCat.seen = false;
+            divCat.tabCatSeen = false;
+            divCat.resCatSeen = false;
+            divCat.errCatSeen = false;
+            let data = $("#formBorraCategoria").serialize();
             $.get("/categorias")
                 .done((res)=>{
                     console.log(res.categorias);
-                    tablaCategorias.categorias = res.categorias;
-                    tablaCategorias.mostrar=true;
+                    divCat.categorias = res.categorias;
+                    divCat.tabCatSeen =true;
                 })
                 .fail((err)=>{
-                        divErrCat.error='Ah ocurrido un error';
-                        divErrCat.seen = true;
+                        divCat.error='Ah ocurrido un error';
+                        divCat.errCatSeen = true;
                     });
         });
+        $("#btnBorraCategoria").click(()=>{
+            tablaCategorias.mostrar = false;
+            divErrCat.seen = false;
+            divResCat.seen = false;
+            divResCatBorr.seen = false;
+            let request = $.ajax({
+            url: "/categorias",
+            method: "DELETE",
+            data: { nombre : nombre },
+            dataType: "json"
+            });
+            console.log(request);
+        });
+        
+        /* }); */
+        function mostCateg(){
+            divCat.catSeen = true;
+        };
+        function mostMarcas(){
+            divCat.catSeen = false;
+        };
+        function mostProduct(){
+            divCat.catSeen = false;
+        };
     </script>
 
 
