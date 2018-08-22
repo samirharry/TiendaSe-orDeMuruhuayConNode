@@ -34,83 +34,6 @@
             </div>
         </div>
     </nav>
-    <div id ="divMar" v-if="marSeen">
-        <h1>CREA MARCAS</h1>
-        <form id="formCreaCategoria">
-            <fieldset>
-                <div>
-                    <label>Nombre</label>
-                    <input class="input is-rounded" type="text" name="nombre"/>
-                </div>
-                <div>
-                    <label>Descripcion</label>
-                    <input class="input is-rounded" type="text" name="descripcion"/>
-                </div>
-                <div class="columns">
-                    <div class="column">
-                    </div>
-                    <div class="column">
-                        <input class="button is-primary" id="btnCreaCategoria" type="button" value="Crear nueva categoria"/>
-                    </div>
-                    <div class="column">
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-        <div class="message is-success" v-if="resCatSeen">
-            <div class="message-header">
-                <p>Categoria Creada</p>
-                <button class="delete" aria-label="delete"></button>
-            </div>
-            <div class="message-body">
-                <div>Nombre: {{nombre}}</div>
-                <div>Descripcion: {{descripcion}} </div>
-            </div>
-        </div>
-        <h1>OBTIENE CATEGORIAS</h1>
-        <button id="btnObtenCategoria">Obtener Categorias</button>
-        <div v-if="tabCatSeen">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th><abbr title="Position">Nombre</abbr></th>
-                        <th>Descripcion</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="categoria in categorias">
-                      <td>Categoria : {{categoria.nombre}}</td>
-                      <td>Categoria : {{categoria.descripcion}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div v-if="errCatSeen">
-            <fieldset >
-                <legend>ERROR</legend>
-                <div>Error:  {{error}}</div>
-            </fieldset>
-        </div>
-        <h1>BORRA CATEGORIAS</h1>
-        <form id="formBorraCategoria">
-            <fieldset>
-                <div>
-                    <label>Nombre</label>
-                    <input type="text" name="nombre"/>
-                </div>
-                <div>
-                    <input id="btnBorraCategoria" type="button" value="Borrar Categoria"/>
-                </div>
-            </fieldset>
-        </form>
-        <div v-if="errCatSeen">
-            <fieldset >
-                <legend>RESPUESTA</legend>
-                <h2>Categoria Borrada</h2>
-                <div>Mensaje: {{mensaje}}</div>
-            </fieldset>
-        </div>
-    </div>
     <div id ="divCat" v-if="catSeen">
         <h1>CREA CATEGORIAS</h1>
         <form id="formCreaCategoria">
@@ -150,7 +73,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th><abbr title="Position">Nombre</abbr></th>
+                        <th>Nombre</th>
                         <th>Descripcion</th>
                     </tr>
                 </thead>
@@ -188,18 +111,93 @@
             </fieldset>
         </div>
     </div>
+    <div id ="divMar" v-if="marSeen">
+        <h1>CREA MARCAS</h1>
+        <form id="formCreaMarca">
+            <fieldset>
+                <div>
+                    <label>Nombre</label>
+                    <input class="input is-rounded" type="text" name="nombre"/>
+                </div>
+                <div>
+                    <label>Descripcion</label>
+                    <input class="input is-rounded" type="text" name="descripcion"/>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                    </div>
+                    <div class="column">
+                        <input class="button is-primary" id="btnCreaMarca" type="button" value="Crear nueva marca" />
+                    </div>
+                    <div class="column">
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div class="message is-success" v-if="resMarSeen">
+            <div class="message-header">
+                <p>Marca Creada</p>
+                <button class="delete" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+                <div>Nombre: {{nombre}}</div>
+                <div>Descripcion: {{descripcion}} </div>
+            </div>
+        </div>
+        <h1>OBTIENE MARCAS</h1>
+        <button id="btnObtenMarca">Obtener Marcas</button>
+        <div v-if="tabMarSeen">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><abbr title="Position">Nombre</abbr></th>
+                        <th>Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="categoria in categorias">
+                      <td>Categoria : {{categoria.nombre}}</td>
+                      <td>Categoria : {{categoria.descripcion}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div v-if="errMarSeen">
+            <fieldset >
+                <legend>ERROR</legend>
+                <div>Error:  {{error}}</div>
+            </fieldset>
+        </div>
+        <h1>BORRA CATEGORIAS</h1>
+        <form id="formBorraMarca">
+            <fieldset>
+                <div>
+                    <label>Nombre</label>
+                    <input type="text" name="nombre"/>
+                </div>
+                <div>
+                    <input id="btnBorraMarca" type="button" value="Borrar Marca"/>
+                </div>
+            </fieldset>
+        </form>
+        <div v-if="errMarSeen">
+            <fieldset >
+                <legend>RESPUESTA</legend>
+                <h2>Marca Borrada</h2>
+                <div>Mensaje: {{mensaje}}</div>
+            </fieldset>
+        </div>
+    </div>
     <script src="./js/jquery/jquery-3.3.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
-
- /*        $(document).ready(function() { */
             // Check for click events on the navbar burger icon
-            $(".navbar-burger").click(function() {
+        $(".navbar-burger").click(function() {
             // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-                $(".navbar-burger").toggleClass("is-active");
-                $(".navbar-menu").toggleClass("is-active");
-            });
-            var divCat = new Vue({
+            $(".navbar-burger").toggleClass("is-active");
+            $(".navbar-menu").toggleClass("is-active");
+        });
+        var divCat = new Vue({
             el: '#divCat',
             data:{
                 catSeen: true,
@@ -213,22 +211,22 @@
                 categorias:[],
                 mensaje: ''
             }
-            });
-            var divMar = new Vue({
+        });
+        var divMar = new Vue({
             el: '#divMar',
             data:{
                 marSeen: false,
-                resCatSeen: false,
-                errCatSeen: false,
-                tabCatSeen: false,
-                borCatSeen: false,
+                resMarSeen: false,
+                errMarSeen: false,
+                tabMarSeen: false,
+                borMarSeen: false,
                 nombre: '',
                 descripcion: '',
                 error:'',
-                categorias:[],
+                marcas:[],
                 mensaje: ''
             }
-            });
+        });
         $("#navCate").click(()=>{
             divCat.catSeen = true;
             divMar.marSeen = false;
@@ -261,7 +259,6 @@
             divCat.tabCatSeen = false;
             divCat.resCatSeen = false;
             divCat.errCatSeen = false;
-            let data = $("#formBorraCategoria").serialize();
             $.get("/categorias")
                 .done((res)=>{
                     console.log(res.categorias);
@@ -286,17 +283,50 @@
             });
             console.log(request);
         });
-        
-        /* }); */
-        function mostCateg(){
-            divCat.catSeen = true;
-        };
-        function mostMarcas(){
-            divCat.catSeen = false;
-        };
-        function mostProduct(){
-            divCat.catSeen = false;
-        };
+        $("#btnCreaMarca").click(()=>{
+                divMar.resMarSeen = false;
+                divMar.errMarSeen = false;
+                divMar.tabMarSeen = false;
+                let data = $("#formCreaMarca").serialize();
+                $.post("/marcas",data)
+                    .done((res)=>{
+                        divMar.nombre= res.marca.nombre;
+                        divMar.descripcion= res.marca.descripcion;
+                        divMar.resMarSeen = true;
+                    })
+                    .fail((err)=>{
+                        divMar.error='Ah ocurrido un error';
+                        divMar.errMarSeen = true;
+                    });
+        });
+        $("#btnObtenMarca").click(()=>{
+            divCat.tabCatSeen = false;
+            divCat.resCatSeen = false;
+            divCat.errCatSeen = false;
+            $.get("/categorias")
+                .done((res)=>{
+                    console.log(res.categorias);
+                    divCat.categorias = res.categorias;
+                    divCat.tabCatSeen =true;
+                })
+                .fail((err)=>{
+                        divCat.error='Ah ocurrido un error';
+                        divCat.errCatSeen = true;
+                    });
+        });
+        $("#btnBorraMarca").click(()=>{
+            tablaCategorias.mostrar = false;
+            divErrCat.seen = false;
+            divResCat.seen = false;
+            divResCatBorr.seen = false;
+            let request = $.ajax({
+            url: "/categorias",
+            method: "DELETE",
+            data: { nombre : nombre },
+            dataType: "json"
+            });
+            console.log(request);
+        });
     </script>
 
 
