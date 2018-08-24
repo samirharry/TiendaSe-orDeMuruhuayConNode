@@ -1,51 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Tienda</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
-        <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
-    </head>
-    <body>
-        <nav class="navbar is-transparent">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="https://bulma.io">
-                    <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
-                </a>
-                <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tienda</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+</head>
+<body>
+    <nav id="navBar" class="navbar is-transparent">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://bulma.io">
+                <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+            </a>
+            <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
-            <div id="navbarExampleTransparentExample" class="navbar-menu">
-                <div class="navbar-start">
-                    <a id="navCate" class="navbar-item" href="./html/categoria.html">
-                        CATEGORIAS
-                    </a>
-                    <a id="navMarc" class="navbar-item" href="./html/marca.html">
-                        MARCAS
-                    </a>
-                    <a id="navProd" class="navbar-item" href="./html/producto.html">
-                        PRODUCTOS
-                    </a>
-                </div>
-            </div>
-        </nav>
-        <div>
-            <h1>RAFA CABRAZO</h1>
         </div>
-        <script src="./js/jquery/jquery-3.3.1.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <script>
-            // Check for click events on the navbar burger icon
-                $(".navbar-burger").click(function() {
-            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-                    $(".navbar-burger").toggleClass("is-active");
-                    $(".navbar-menu").toggleClass("is-active");
-                });
-        </script>
-    </body>
+        <div id="navbarExampleTransparentExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a id="navCate" class="navbar-item" v-on:click="showCategorias">
+                    CATEGORIAS
+                </a>
+                <a id="navMarc" class="navbar-item" v-on:click="showMarcas">
+                    MARCAS
+                </a>
+                <a id="navProd" class="navbar-item" v-on:click="showProductos">
+                    PRODUCTOS
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div id ="divCat" v-if="catSeen">
+        <h1>CREA CATEGORIAS</h1>
+        <form id="formCreaCategoria">
+            <fieldset>
+                <div>
+                    <label>Nombre</label>
+                    <input class="input is-rounded" type="text" v-model="newName"/>
+                </div>
+                <div>
+                    <label>Descripcion</label>
+                    <input class="input is-rounded" type="text" v-model="newDesc"/>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                    </div>
+                    <div class="column">
+                        <input class="button is-primary" id="btnCreaCategoria" v-on:click="creaCategoria" type="button" value="Crear nueva categoria"/>
+                    </div>
+                    <div class="column">
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div id="divResCat" class="message is-success" v-if="resCatSeen">
+            <div class="message-header">
+                <p>Categoria Creada</p>
+                <button v-on:click="closeDivResCatSeen" class="delete" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+                <div>Nombre: {{nombre}}</div>
+                <div>Descripcion: {{descripcion}} </div>
+            </div>
+        </div>
+        <div>
+            <h1>OBTIENE CATEGORIAS</h1>
+            <button v-on:click="muestraCategorias">Obtener Categorias</button>
+            <div v-if="tabCatSeen">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripcion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="categoria in categorias">
+                          <td>{{categoria.nombre}}</td>
+                          <td>{{categoria.descripcion}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div v-if="errCatSeen">
+            <fieldset >
+                <legend>ERROR</legend>
+                <div>Error:  {{error}}</div>
+            </fieldset>
+        </div>
+        <button class="button is-danger" v-on:click="showBorCatSeen">BORRA ALGUNA CATEGORIA</button>
+        <div v-if="borCatSeen">
+            <h1>BORRA CATEGORIAS</h1>
+            <form id="formBorraCategoria">
+                <fieldset>
+                    <div class="field">
+                        <div class="control has-icons-left">
+                            <div class="select" >
+                                <select v-model="cateABorra">
+                                    <tr v-for="categoria in categorias">
+                                        <option></option>{{categoria.nombre}}</tr>
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <input v-on:click="borraCategoria(cateABorra)" type="button" value="Borrar Categoria"/>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+        <div v-if="borrResCatSeen">
+            <fieldset >
+                <legend>RESPUESTA</legend>
+                <div> {{mensaje}} </div>
+            </fieldset>
+        </div>
+    </div>
+    <div id ="divMar" v-if="marSeen">
+        <h1>CREA MARCAS</h1>
+        <form id="formCreaMarca">
+            <fieldset>
+                <div>
+                    <label>Nombre</label>
+                    <input class="input is-rounded" type="text" v-model="newName"/>
+                </div>
+                <div>
+                    <label>Descripcion</label>
+                    <input class="input is-rounded" type="text" v-model="newDesc"/>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                    </div>
+                    <div class="column">
+                        <input class="button is-primary" id="btnCreaMarca" v-on:click="creaMarca" type="button" value="Crear nueva Marca"/>
+                    </div>
+                    <div class="column">
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div  class="message is-success" v-if="resMarSeen">
+            <div class="message-header">
+                <p>Marca Creada</p>
+                <button v-on:click="closeDivResMarSeen" class="delete" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+                <div>Nombre: {{nombre}}</div>
+                <div>Descripcion: {{descripcion}} </div>
+            </div>
+        </div>
+        <h1>OBTIENE MARCAS</h1>
+        <button v-on:click="muestraMarcas">Obtener Marcas</button>
+        <div v-if="tabMarSeen">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><abbr title="Position">Nombre</abbr></th>
+                        <th>Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="marca in marcas">
+                      <td>{{marca.nombre}}</td>
+                      <td>{{marca.descripcion}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div v-if="errMarSeen">
+            <fieldset >
+                <legend>ERROR</legend>
+                <div>Error:  {{error}}</div>
+            </fieldset>
+        </div>
+        <h1>BORRA CATEGORIAS</h1>
+        <form id="formBorraMarca">
+            <fieldset>
+                <div>
+                    <label>Nombre</label>
+                    <input type="text" name="nombre"/>
+                </div>
+                <div>
+                    <input id="btnBorraMarca" type="button" value="Borrar Marca"/>
+                </div>
+            </fieldset>
+        </form>
+        <div v-if="errMarSeen">
+            <fieldset >
+                <legend>RESPUESTA</legend>
+                <h2>Marca Borrada</h2>
+                <div>Mensaje: {{mensaje}}</div>
+            </fieldset>
+        </div>
+    </div>
+    <script src="./js/jquery/jquery-3.3.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./js/app.js"></script>
+</body>
 </html>
