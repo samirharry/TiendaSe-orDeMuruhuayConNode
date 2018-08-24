@@ -18,13 +18,13 @@ app.use(require('./routes/index'));
 
 
 
-
-mongoose.connect(process.env.URLDB,{ useNewUrlParser: true },(err,res)=>{
-    if(err) {
+mongoose.connect(process.env.URLDB,{ useNewUrlParser: true })
+    .then(()=>{
+        console.log('Base de datos online');
+    })
+    .catch((err)=>{
         console.log('No conectaste la base de datos');
-    };
-    console.log("Base de Datos online");
-});
+    })
 
 app.listen(process.env.PORT,()=>{
     console.log("Escuchando Puerto:", 3000);

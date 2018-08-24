@@ -96,12 +96,9 @@ app.put('/categorias/:id',(req,res)=>{
 //=========================
 // Eliminar categorias
 //=============================
-app.delete('/categorias',(req,res)=>{
-    let nombre = req.body.nombre;
-    let cambiaDisponibilidad = {
-        disponible:false
-    };
-    Categoria.findOneAndUpdate({nombre: nombre},cambiaDisponibilidad,{new: true},(err,categoriaDB)=>{
+app.delete('/categorias/:id',(req,res)=>{
+    let nombre = req.params.id;
+    Categoria.findOneAndRemove({_id: nombre},{new: true},(err,categoriaDB)=>{
         if(err){
             res.status(500).json({
                 ok: false,

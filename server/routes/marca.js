@@ -94,7 +94,7 @@ app.put('/marcas/:id',(req,res)=>{
         });
 });
 //=========================
-// Eliminar categorias
+// Eliminar marcas
 //=============================
 app.delete('/marcas',(req,res)=>{
     let nombre = req.body.nombre;
