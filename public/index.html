@@ -14,7 +14,7 @@
             <a class="navbar-item" href="https://bulma.io">
                 <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
             </a>
-            <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+            <div v-on:click="toggleMovil" class="navbar-burger burger" data-target="navbarExampleTransparentExample">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -22,13 +22,13 @@
         </div>
         <div id="navbarExampleTransparentExample" class="navbar-menu">
             <div class="navbar-start">
-                <a id="navCate" class="navbar-item" v-on:click="showCategorias">
+                <a class="navbar-item" v-on:click="showCategorias">
                     CATEGORIAS
                 </a>
-                <a id="navMarc" class="navbar-item" v-on:click="showMarcas">
+                <a class="navbar-item" v-on:click="showMarcas">
                     MARCAS
                 </a>
-                <a id="navProd" class="navbar-item" v-on:click="showProductos">
+                <a class="navbar-item" v-on:click="showProductos">
                     PRODUCTOS
                 </a>
             </div>
