@@ -96,9 +96,28 @@ app.put('/categorias/:id',(req,res)=>{
 //=========================
 // Eliminar categorias
 //=============================
-app.delete('/categorias/:id',(req,res)=>{
-    let nombre = req.params.id;
-    Categoria.findOneAndRemove({_id: nombre},{new: true},(err,categoriaDB)=>{
+app.delete('/categorias/:nombre',(req,res)=>{
+    let nombre = req.params.nombre;
+    Categoria.findOneAndRemove({nombre: nombre})
+        .exec((err,categoriaDB)=>{
+            if(err) return res.status(400).json({
+                ok: false,
+                err
+            });
+            else if(! categoriaDB){
+                res.status(400).json({
+                    ok: false,
+                    message: 'La categoria seleccionada no existe'
+                });
+            }
+            else{
+                res.status(200).json({
+                    ok: true,
+                    message: 'La categoria ha sido borrada'
+                });
+            }
+        });
+/*     Categoria.findOneAndRemove({_id: nombre},{new: true},(err,categoriaDB)=>{
         if(err){
             res.status(500).json({
                 ok: false,
@@ -113,13 +132,7 @@ app.delete('/categorias/:id',(req,res)=>{
                 }
             })
         }
-        else{
-            res.json({
-                ok: true,
-                message: 'La categoria ha sido borrada'
-            });
-        }
-    });
+    }); */
 });
 
 module.exports = app;
